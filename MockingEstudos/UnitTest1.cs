@@ -9,7 +9,7 @@ namespace MockingEstudos
     public class UnitTest1
     {
         [Fact]
-        [Trait ("Categoria", "Preço Correto")]
+        [Trait ("Preço", "Correto")]
         public void ValidaVerificadorPrecoProduto()
         {
             //Arrange
@@ -30,7 +30,7 @@ namespace MockingEstudos
         }
 
         [Fact]
-        [Trait("Categoria", "Preço Incorreto")]
+        [Trait("Preço", "Incorreto")]
         public void ValidaVerificadorPrecoProdutoFalse()
         {
             //Arrange
@@ -49,5 +49,42 @@ namespace MockingEstudos
             //Assert
             Assert.Equal(resultado, resultadoEsperado);
         }
+        [Fact]
+        [Trait ("Descrição", "Correto")]
+        public void ValidaDescricaoNaoVazia()
+        {
+            //Arrange
+            Product DescricaoOK = new Product()
+            {
+                Descricao = "Este é um belo produto que proporciona diversos tipos de entretenimento para o comprador!"
+            };
+            Mock<IVerificadorDescricao> mock = new Mock<IVerificadorDescricao>();
+            mock.Setup(m => m.VerificaDescricao(DescricaoOK)).Returns(DescricaoOK.Descricao);
+
+            //Act
+            var resultadoEsperado = mock.Object.VerificaDescricao(DescricaoOK);
+
+            //Assert
+            Assert.NotNull(resultadoEsperado);
+        }
+        [Fact]
+        [Trait("Descrição", "Incorreto")]
+        public void ValidaDescricaoVazia()
+        {
+            //Arrange
+            Product DescricaoOK = new Product()
+            {
+                Descricao = null
+            };
+            Mock<IVerificadorDescricao> mock = new Mock<IVerificadorDescricao>();
+            mock.Setup(m => m.VerificaDescricao(DescricaoOK)).Returns(DescricaoOK.Descricao);
+
+            //Act
+            var resultadoEsperado = mock.Object.VerificaDescricao(DescricaoOK);
+
+            //Assert
+            Assert.NotNull(resultadoEsperado);
+        }
+
     }
 }
